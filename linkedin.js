@@ -10,9 +10,8 @@ async function main() {
   const page = await browser.newPage({});
 
   await page.goto("https://www.linkedin.com/");
-  await page.locator(".text-input").first().click();
 
-  await page.pause();
+  await await page.pause();
 }
 
 main();
