@@ -16,24 +16,24 @@ async function main() {
   );
 
   const cards = await page.$$("#mosaic-provider-jobcards .css-5lfssm");
+  const companyInfo_0 = await cards[0].$(".resultContent");
+  await page.waitForTimeout(1000);
+  await companyInfo_0.click();
+  await page.goBack({ waitUntil: "load" });
 
-  const jobInfo = [];
+  // const jobInfo = [];
+  // for (let card of cards) {
+  //   const cardInfo = await card.innerText();
+  //   jobInfo.push(cardInfo.split("\n"));
 
-  for (let card of cards) {
-    const cardInfo = await card.innerText();
-    jobInfo.push(cardInfo.split("\n"));
-
-    const companyInfoContainer = await card.$(".resultContent");
-    if (companyInfoContainer) {
-      await companyInfoContainer.click();
-      console.log("click");
-    }
-  }
-  // const toText = (element) => element && element.innerText.trim();
-  // const textInfo = toText(jobInfo);
+  //   const companyInfo = await card.$(".resultContent");
+  //   if (companyInfo) {
+  //     await companyInfo.click();
+  //   }
+  // }
 
   await page.pause();
-  console.log(jobInfo);
+  // console.log(jobInfo);
   // await page.waitForTimeout(10000);
   await context.close();
   await browser.close();
