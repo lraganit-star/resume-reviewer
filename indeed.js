@@ -23,9 +23,7 @@ async function main() {
     const cardInfo = await card.innerText();
     jobInfo.push(cardInfo.split("\n"));
 
-    const companyInfoContainer = await card.$(
-      '[data-testid="jobsearch-CompanyInfoContainer"]'
-    );
+    const companyInfoContainer = await card.$(".resultContent");
     if (companyInfoContainer) {
       await companyInfoContainer.click();
       console.log("click");
@@ -36,7 +34,7 @@ async function main() {
 
   await page.pause();
   console.log(jobInfo);
-  await page.waitForTimeout(10000);
+  // await page.waitForTimeout(10000);
   await context.close();
   await browser.close();
 }
