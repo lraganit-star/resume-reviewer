@@ -16,15 +16,33 @@ async function main() {
   );
 
   const cards = await page.$$("#mosaic-provider-jobcards .css-5lfssm");
+
+  // This makes it to where we click a card and then go back since the full job description doesn't appear until this is done
   const companyInfo_0 = await cards[0].$(".resultContent");
   await page.waitForTimeout(1000);
   await companyInfo_0.click();
   await page.goBack({ waitUntil: "load" });
+  await page.waitForTimeout(3000);
 
-  // const jobInfo = [];
-  // for (let card of cards) {
-  //   const cardInfo = await card.innerText();
-  //   jobInfo.push(cardInfo.split("\n"));
+  const reloadedCards = await page.$$("#mosaic-provider-jobcards .css-5lfssm");
+  const reloadedCompanyInfo_0 = await reloadedCards[0].$(".resultContent");
+  await reloadedCompanyInfo_0.click();
+
+  await page.pause();
+
+  await page.waitForTimeout(1000);
+  const jobComponentHeader = await page.$(".jobsearch-HeaderContainer");
+  // console.log(jobComponent);
+
+  const jobInfo = [];
+  const jobComponentHeaderInfo = await jobComponentHeader.innerText();
+  console.log(jobComponentHeaderInfo);
+  jobInfo.push(jobComponentHeaderInfo.split("\n"));
+
+  const jobComponentBody = await page.$(".jobsearch-embeddedBody");
+  const jobComponentBodyInfo = await jobComponentBody.innerText();
+  console.log(jobComponentBodyInfo);
+  jobInfo.push(jobComponentBodyInfo.split("\n"));
 
   //   const companyInfo = await card.$(".resultContent");
   //   if (companyInfo) {
@@ -32,7 +50,6 @@ async function main() {
   //   }
   // }
 
-  await page.pause();
   // console.log(jobInfo);
   // await page.waitForTimeout(10000);
   await context.close();
